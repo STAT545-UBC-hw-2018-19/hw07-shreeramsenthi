@@ -1,0 +1,21 @@
+Package: dredger
+Title: Expedite multiple hypothesis testing with AIC
+Version: 0.0.0.9000
+Authors@R: person("Shreeram", "Senthivasan", email = "shreeramsenthi@github.com", role = c("aut", "cre"))
+Description: Finding support for multiple models during
+    exploratory data analysis takes a lot of steps! This
+    package expedites the process some by working with lists
+    of formulas and models.
+Depends: R (>= 3.5.1)
+Imports:
+    broom,
+    car,
+    dplyr,
+    knitr,
+    purrr,
+    stringr,
+    tibble
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.0
