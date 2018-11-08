@@ -3,6 +3,10 @@
 #' @param level Markdown header level
 
 print_list <- function(list_to_print, level = 4){
+  # Check that list is named
+  if(is.null(names(list_to_print)))
+     stop("Please use named lists only!")
+
   # Make a header of the appropriate length
   header <- stringr::str_pad(" ", level+1, "left", "#")
 
