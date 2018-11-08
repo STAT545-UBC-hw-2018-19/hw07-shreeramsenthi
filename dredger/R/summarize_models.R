@@ -20,7 +20,7 @@ summarize_models <- function(models, ...){
     # Print out a nice table of confidence intervals
     cat("### Confidence Intervals for Coefficients: \n")
     models %>%
-      purrr::map(confint) %>%
+      purrr::map(stats::confint) %>%
       purrr::map(tibble::as_tibble) %>%
       purrr::map(dplyr::mutate_if, # as before
         is.numeric,

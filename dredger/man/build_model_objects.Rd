@@ -4,7 +4,7 @@
 \alias{build_model_objects}
 \title{Build list of model objects}
 \usage{
-build_model_objects(formulas, data, model = lm, ...)
+build_model_objects(formulas, data, model = stats::lm, ...)
 }
 \arguments{
 \item{formulas}{List of model formulas}

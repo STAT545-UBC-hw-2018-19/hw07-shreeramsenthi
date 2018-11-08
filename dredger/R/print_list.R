@@ -1,5 +1,5 @@
 #' @title Print a named list using markdown-style header tags
-#' @param X List of objects to print
+#' @param list_to_print List of objects to print
 #' @param level Markdown header level
 
 print_list <- function(list_to_print, level = 4){

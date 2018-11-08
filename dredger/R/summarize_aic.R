@@ -8,7 +8,7 @@ summarize_aic <- function(models){
   check_models(
     tibble::tibble(
       model = names(models),
-      aic = purrr::map_dbl(models, AIC),
+      aic = purrr::map_dbl(models, stats::AIC),
       delta_aic = aic - min(aic),
       likelihood = exp(-0.5 * delta_aic),
       aic_weight = likelihood / sum(likelihood)

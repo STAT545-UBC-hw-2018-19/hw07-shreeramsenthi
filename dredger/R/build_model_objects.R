@@ -6,7 +6,7 @@
 #' @return A list of model objects
 #' @export
 
-build_model_objects <- function(formulas, data, model = lm, ...){
+build_model_objects <- function(formulas, data, model = stats::lm, ...){
   # Check that both the arguments without defaults were provided
   if(missing(formulas) | missing(data))
     stop("Please provide a list of formulas and a dataset")

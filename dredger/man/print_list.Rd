@@ -7,9 +7,9 @@
 print_list(list_to_print, level = 4)
 }
 \arguments{
-\item{level}{Markdown header level}
+\item{list_to_print}{List of objects to print}
 
-\item{X}{List of objects to print}
+\item{level}{Markdown header level}
 }
 \description{
 Print a named list using markdown-style header tags

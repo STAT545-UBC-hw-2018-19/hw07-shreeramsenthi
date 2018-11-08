@@ -7,7 +7,7 @@ tidy_predictions <- function(models){
   # Code wrapped in check_models to check for bad inputs
   check_models(
     models %>%
-      purrr::map(augment) %>%
+      purrr::map(broom::augment) %>%
       purrr::map2(names(.), ~ dplyr::mutate(.x, model_name = .y)) %>%
       dplyr::bind_rows()
   )
