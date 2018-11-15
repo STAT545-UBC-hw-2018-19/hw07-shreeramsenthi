@@ -11,7 +11,7 @@ If you have the `devtools` package installed in R, you can install this package 
 devtools::install_github("STAT545-UBC-students/hw07-shreeramsenthi", build_vignettes = T)
 ```
 
-Please be warned that there are a fair number of dependencies, though you probably already have installed! They seem to reinstall for me whenever I run the code above, so consider running the following instead:
+Please be warned that there are a couple dependencies! They seem to reinstall for me every time I run the code above, so consider running the following instead:
 ```
 devtools::install_github("STAT545-UBC-students/hw07-shreeramsenthi", dependencies = F, build_vignettes = T)
 ```
