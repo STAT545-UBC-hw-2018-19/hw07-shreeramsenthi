@@ -8,8 +8,14 @@ Specifically, we were tasked with adding functionality and testing to the `power
 
 If you have the `devtools` package installed in R, you can install this package by running the following command in R:
 ```
-devtools::install_github("STAT545-UBC-students/hw07-shreeramsenthi")
+devtools::install_github("STAT545-UBC-students/hw07-shreeramsenthi", build_vignettes = T)
 ```
+
+Please be warned that there are a fair number of dependencies, though you probably already have installed! They seem to reinstall for me whenever I run the code above, so consider running the following instead:
+```
+devtools::install_github("STAT545-UBC-students/hw07-shreeramsenthi", dependencies = F, build_vignettes = T)
+```
+And manually check that you have `broom`, `car`, and `tidyverse` installed.
 
 If you don't feel like installing the package but still want to see what it's all about, please check out the [markdown version of the vignette](https://github.com/STAT545-UBC-students/hw07-shreeramsenthi/blob/master/vignettes/dredger.md) I've included here for a walkthrough of the included functions.
 
