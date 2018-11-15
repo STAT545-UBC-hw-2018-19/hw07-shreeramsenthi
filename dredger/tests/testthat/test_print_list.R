@@ -1,6 +1,6 @@
 context("Printing Lists")
 
-test_that("All sorts of lists are accepted", {
+test_that("only named lists are accepted.", {
   mixed_list <- list(
     123,
     "abc",
@@ -18,13 +18,5 @@ test_that("All sorts of lists are accepted", {
 
   expect_error(print_list(mixed_list), "Please use named lists only!")
   expect_identical(print_list(named_mixed_list), NULL)
-  }
-)
-
-test_that("The correct header level is added", {
-  example_list = list(num = 0)
-  expect_match(print_list(example_list, 1), "# ")
-  expect_match(print_list(example_list, 2), "## ")
-  expect_match(print_list(example_list, 3), "### ")
   }
 )

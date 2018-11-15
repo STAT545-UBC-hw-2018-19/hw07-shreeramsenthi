@@ -1,10 +1,10 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "dredger"
+author: "Shreeram Senthivasan"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{dredger}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,52 +14,77 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(dredger)
+library(tidyverse)
+library(knitr)
+```
+# Intro to `dredger`
+
+Welcome to the quick rundown of the `dredger` package! This package is a small collection of functions I wrote to expedite fitting and comparing multiple models using AIC as a means of exploratory data analysis.
+
+Here I will use a toy example using the `iris` dataset to showcase the main functions provided by `dredger`. To see the code explained and built from the ground up, please check out the repository where I originally posted this code [here](https://github.com/STAT545-UBC-students/hw06-shreeramsenthi/blob/master/purrr-exercise.md).
+
+## Build a List of Formulas
+
+Before we begin, we have to manually build a named list of the formulas we want to test. For example, let's build a list of formulas to model sepal length in the `iris` dataset.
+
+```{r build_formulas}
+formulas <- list(
+  width = Sepal.Length ~ Sepal.Width,
+  petal = Sepal.Length ~ Petal.Length + Petal.Width,
+  species = Sepal.Length ~ Species
+)
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+## Build and Summarize Model Objects
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+Now we can easily build a list of model objects using the `build_model_objects` function.
 
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r build_models}
+linear_models <- build_model_objects(formulas, data = iris)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+The default behaviour is to make a list of linear model objects, but any function that produces model objects can be passed to the function along with any other relevant arguments. For example, if we had a reason to believe that the dependent variables fit an inverse gaussian distribution, we could build a list of generalized linear models instead like so.
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r build_glm}
+gl_models <- build_model_objects(formulas, data = iris, model = glm, family = inverse.gaussian)
 ```
 
-Also a quote using `>`:
+Notice that the `family` argument are being passed to the `glm` function.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+Now we can use the `sumarize_models` and `summarize_aic` functions to get some information about the list of model objects we've produced.
+
+```{r summarize_linear, results = 'asis'}
+summarize_models(linear_models)
+summarize_aic(linear_models) %>%
+  kable
+```
+
+From this we can see that the two petal measurements together are the most informative model of the three we tested. We can also see the confidence intervals for the parameter estimates for all coefficients.
+
+Of course, we can do this with the list of generalized linear models as well.
+
+```{r summarize_gl, results = 'asis'}
+summarize_models(gl_models)
+summarize_aic(gl_models) %>%
+  kable
+```
+
+## Visualization
+
+Although no functions specifically for visualizing output are provided, the `tidy_predictions` function returns the dataset augmented with predictions and residuals from each model. The returned dataset is tidy, with a single column for each of the fitted values and another column indicating which model the prediction comes from. This makes it easy to pipe this dataset into `ggplot`'s to visualize predictions and residuals from multiple models with relative ease. For example:
+
+```{r plot_models, fig.width = 5, fig.height = 12}
+linear_models %>%
+  tidy_predictions %>%
+  head
+
+linear_models %>%
+  tidy_predictions %>%
+  ggplot(aes(.resid)) +
+    geom_histogram(bins = 50) +
+    facet_wrap(~model_name, ncol = 1) +
+    theme_bw() +
+    labs(x = "Residuals", y = "Frequency")
+```
+
