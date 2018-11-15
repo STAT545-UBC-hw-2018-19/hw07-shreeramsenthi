@@ -8,9 +8,9 @@ Specifically, we were tasked with adding functionality and testing to the `power
 
 If you have the `devtools` package installed in R, you can install this package by running the following command in R:
 ```
-devtools::install_github("hw07-shreeramsenthi/dredger")
+devtools::install_github("STAT545-UBC-students/hw07-shreeramsenthi")
 ```
 
-If you don't feel like installing the package but still want to see what it's all about, please check out the [markdown version of the vignette](https://github.com/STAT545-UBC-students/hw07-shreeramsenthi/blob/master/dredger/vignettes/dredger.md) I've included here for a walkthrough of the included functions.
+If you don't feel like installing the package but still want to see what it's all about, please check out the [markdown version of the vignette](https://github.com/STAT545-UBC-students/hw07-shreeramsenthi/blob/master/vignettes/dredger.md) I've included here for a walkthrough of the included functions.
 
 Thanks for checking this project out!
